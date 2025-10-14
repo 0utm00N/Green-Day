@@ -5,7 +5,7 @@
 <title>Compra en camino</title>
 <style>
 body {
-    background-color: #000; /* Fondo negro */
+    background-color: #000;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,7 +16,6 @@ body {
     color: #00c896;
 }
 
-/* Mensaje de alerta */
 .alerta {
     background-color: #1e1e1e;
     color: #00c896;
@@ -30,35 +29,30 @@ body {
     animation: parpadeo 1.5s ease-in-out infinite alternate;
 }
 
-/* Parpadeo suave del mensaje */
 @keyframes parpadeo {
     0% { opacity: 0.7; }
     100% { opacity: 1; }
 }
 
-/* Contenedor del camión */
 .camion-container {
     display: inline-block;
-    white-space: pre; /* Mantener el espaciado del monito */
+    white-space: pre;
     font-size: 18px;
-    color: #00c896; /* Color neón */
+    color: #00c896;
     animation: mover 5s linear infinite, saltar 0.5s ease-in-out infinite alternate;
 }
 
-/* Animación de izquierda a derecha */
 @keyframes mover {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100vw); }
 }
 
-/* Animación tipo salto 8bit */
 @keyframes saltar {
     0% { transform: translateY(0); }
     50% { transform: translateY(-6px); }
     100% { transform: translateY(0); }
 }
 
-/* Botón volver al catálogo */
 .boton-catalogo {
     margin-top: 2rem;
     padding: 0.8rem 1.5rem;
@@ -79,7 +73,15 @@ body {
 </head>
 <body>
 
-<div class="alerta">¡Su compra está en camino!</div>
+<div class="alerta">
+    {% if metodo_pago == "transbank" %}
+        ¡Pago con Transbank realizado! Tu compra está en camino.
+    {% elif metodo_pago == "paypal" %}
+        ¡Pago con PayPal realizado! Tu compra está en camino.
+    {% else %}
+        ¡Compra realizada! Tu pedido está en camino.
+    {% endif %}
+</div>
 
 <div class="camion-container">
              ____  
@@ -94,14 +96,3 @@ body {
 
 </body>
 </html>
-
-
-
-
-
-<!--          ____  
-   ______    | "o \
-  /\/\/\/\   | ___/
-<|\/\/\/\/|_/ /
- |___________/
- |_|_|  /_/_/ -->

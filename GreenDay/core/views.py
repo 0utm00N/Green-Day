@@ -5,6 +5,12 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import PerfilForm
 from django.contrib import messages
+from .firebase_utils import (
+    guardar_itemcarrito_firebase,
+    sincronizar_carrito_firebase,
+    guardar_pedido_firebase,
+    guardar_cliente_firebase
+)
 
 # Create your views here.
 
@@ -93,29 +99,42 @@ def eliminar_del_carrito(request, producto_id):
 def finalizar_pedido(request):
     cliente = request.user.cliente
 
-    # Crear el pedido
-    pedido = Pedido.objects.create(cliente=cliente)
+    if request.method == "POST":
+        metodo_pago = request.POST.get("metodo_pago")  # <-- nuevo
+        if not metodo_pago:
+            # Si no se seleccionó, redirigir al carrito
+            return redirect("carrito")
 
-    carrito = Carrito.objects.filter(cliente=cliente).first()
-    if carrito:
-        total = 0
-        for item in carrito.items.all():
-            DetallePedido.objects.create(
-                pedido=pedido,
-                producto=item.producto,
-                cantidad=item.cantidad,
-                precio_unitario=item.producto.precio
-            )
-            total += item.producto.precio * item.cantidad
+        # Crear el pedido
+        pedido = Pedido.objects.create(cliente=cliente)
 
-        # Guardar el total en el pedido
-        pedido.total = total
-        pedido.save()
+        carrito = Carrito.objects.filter(cliente=cliente).first()
+        if carrito:
+            total = 0
+            for item in carrito.items.all():
+                DetallePedido.objects.create(
+                    pedido=pedido,
+                    producto=item.producto,
+                    cantidad=item.cantidad,
+                    precio_unitario=item.producto.precio
+                )
+                total += item.producto.precio * item.cantidad
 
-        # Vaciar el carrito después de finalizar pedido
-        carrito.items.all().delete()
+            # Guardar el total en el pedido
+            pedido.total = total
+            pedido.save()
 
-    return redirect('pedido_exitoso')
+            # Vaciar el carrito
+            carrito.items.all().delete()
+
+        # Renderizar la página de pedido exitoso con método de pago
+        return render(request, "core/pedido_exitoso.html", {
+            "metodo_pago": metodo_pago
+        })
+
+    # Si se accede por GET, redirigir al carrito
+    return redirect("carrito")
+
 
 @login_required
 def historial_pedidos(request):
@@ -162,3 +181,9 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('catalogo')
+
+# -----------------------------
+# FireBase
+# -----------------------------
+
+
