@@ -1,98 +1,25 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Compra en camino</title>
-<style>
-body {
-    background-color: #000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: monospace;
-    color: #00c896;
-}
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/pedido_exitoso.css' %}">
 
-.alerta {
-    background-color: #1e1e1e;
-    color: #00c896;
-    border: 2px solid #00c896;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    font-size: 1.5rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 0 12px rgba(0, 200, 150, 0.5);
-    animation: parpadeo 1.5s ease-in-out infinite alternate;
-}
+<div class="exito-container">
+  <div class="exito-card">
+    <div class="icono-exito">✅</div>
+    <h1>¡Pedido realizado con éxito!</h1>
+    <p class="mensaje-en-camino">Tu pedido ya está en camino 🚚</p>
+    <p>Gracias por tu compra con <strong>{{ metodo }}</strong>.</p>
 
-@keyframes parpadeo {
-    0% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
+    <div class="detalle-pedido">
+      <p><strong>ID Pedido:</strong> {{ pedido.id }}</p>
+      <p><strong>Fecha:</strong> {{ pedido.fecha }}</p>
+      <p><strong>Total:</strong> ${{ pedido.total }}</p>
+      <p><strong>Estado:</strong> Completado ✅</p>
+    </div>
 
-.camion-container {
-    display: inline-block;
-    white-space: pre;
-    font-size: 18px;
-    color: #00c896;
-    animation: mover 5s linear infinite, saltar 0.5s ease-in-out infinite alternate;
-}
 
-@keyframes mover {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100vw); }
-}
 
-@keyframes saltar {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-    100% { transform: translateY(0); }
-}
-
-.boton-catalogo {
-    margin-top: 2rem;
-    padding: 0.8rem 1.5rem;
-    background-color: #00c896;
-    color: #121212;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.boton-catalogo:hover {
-    background-color: #00e6ac;
-}
-</style>
-</head>
-<body>
-
-<div class="alerta">
-    {% if metodo_pago == "transbank" %}
-        ¡Pago con Transbank realizado! Tu compra está en camino.
-    {% elif metodo_pago == "paypal" %}
-        ¡Pago con PayPal realizado! Tu compra está en camino.
-    {% else %}
-        ¡Compra realizada! Tu pedido está en camino.
-    {% endif %}
+    <a href="{% url 'catalogo' %}" class="btn-volver">Volver al Catálogo</a>
+  </div>
 </div>
-
-<div class="camion-container">
-             ____  
-   ______   | "o \  
-  /\/\/\/\  | ___/  
-<|\/\/\/\/|_/ /  
- |___________/  
- |_|_|  /_/_/  
-</div>
-
-<a href="/catalogo" class="boton-catalogo">Volver al catálogo</a>
-
-</body>
-</html>
+{% endblock %}

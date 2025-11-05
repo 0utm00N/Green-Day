@@ -1,3 +1,10 @@
+import paypalrestsdk
+from transbank.webpay.webpay_plus.transaction import Transaction
+from django.conf import settings
+from django.http import JsonResponse
+from transbank.webpay.webpay_plus.transaction import Transaction
+from transbank.common.options import WebpayOptions
+from transbank.common.integration_type import IntegrationType
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -99,41 +106,43 @@ def eliminar_del_carrito(request, producto_id):
 def finalizar_pedido(request):
     cliente = request.user.cliente
 
-    if request.method == "POST":
-        metodo_pago = request.POST.get("metodo_pago")  # <-- nuevo
-        if not metodo_pago:
-            # Si no se seleccionó, redirigir al carrito
-            return redirect("carrito")
-
-        # Crear el pedido
-        pedido = Pedido.objects.create(cliente=cliente)
-
+    if request.method == 'POST':
+        metodo_pago = request.POST.get('metodo_pago')
         carrito = Carrito.objects.filter(cliente=cliente).first()
-        if carrito:
-            total = 0
-            for item in carrito.items.all():
-                DetallePedido.objects.create(
-                    pedido=pedido,
-                    producto=item.producto,
-                    cantidad=item.cantidad,
-                    precio_unitario=item.producto.precio
-                )
-                total += item.producto.precio * item.cantidad
 
-            # Guardar el total en el pedido
-            pedido.total = total
-            pedido.save()
+        if not carrito or not carrito.items.exists():
+            messages.error(request, "Tu carrito está vacío.")
+            return redirect('ver_carrito')
 
-            # Vaciar el carrito
-            carrito.items.all().delete()
+        # Crear pedido
+        pedido = Pedido.objects.create(cliente=cliente)
+        total = 0
 
-        # Renderizar la página de pedido exitoso con método de pago
-        return render(request, "core/pedido_exitoso.html", {
-            "metodo_pago": metodo_pago
-        })
+        for item in carrito.items.all():
+            DetallePedido.objects.create(
+                pedido=pedido,
+                producto=item.producto,
+                cantidad=item.cantidad,
+                precio_unitario=item.producto.precio
+            )
+            total += item.producto.precio * item.cantidad
 
-    # Si se accede por GET, redirigir al carrito
-    return redirect("carrito")
+        pedido.total = total
+        pedido.save()
+
+        # Vaciar carrito
+        carrito.items.all().delete()
+
+        # Redirigir según el método de pago seleccionado
+        if metodo_pago == 'transbank':
+            return redirect('pago_transbank', pedido_id=pedido.id)
+        elif metodo_pago == 'paypal':
+            return redirect('pago_paypal', pedido_id=pedido.id)
+        else:
+            messages.error(request, "Método de pago no válido.")
+            return redirect('ver_carrito')
+
+    return redirect('ver_carrito')
 
 
 @login_required
@@ -147,8 +156,9 @@ def detalle_pedido(request, pedido_id):
     detalles = pedido.detalles.all()
     return render(request, 'core/detalle_pedido.html', {'pedido': pedido, 'detalles': detalles})
 
-def pedido_exitoso(request):
-    return render(request, 'core/pedido_exitoso.html')
+def pedido_exitoso(request, pedido_id):
+    pedido = Pedido.objects.get(id=pedido_id)
+    return render(request, 'core/pedido_exitoso.html', {'pedido': pedido})
 
 # -----------------------------
 # Perfil
@@ -182,8 +192,43 @@ def logout_view(request):
     logout(request)
     return redirect('catalogo')
 
-# -----------------------------
-# FireBase
-# -----------------------------
+# --- PAGO SIMULADO TRANSBANK ---
+def pago_transbank(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    confirmacion_url = f"/api/pago/transbank/confirm/?pedido_id={pedido.id}"
+    return render(request, "core/redirigir_pago.html", {
+        "pedido": pedido,
+        "pedido_id": pedido.id,
+        "url_confirmacion": confirmacion_url,
+        "metodo": "Transbank"
+    })
 
 
+# --- PAGO SIMULADO PAYPAL ---
+def pago_paypal(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    confirmacion_url = f"/api/pago/paypal/confirm/?pedido_id={pedido.id}"
+    return render(request, "core/redirigir_pago.html", {
+        "pedido": pedido,
+        "pedido_id": pedido.id,
+        "url_confirmacion": confirmacion_url,
+        "metodo": "PayPal"
+    })
+
+
+# --- CONFIRMACIÓN DE TRANSBANK ---
+def confirmar_pago_transbank(request):
+    pedido_id = request.GET.get("pedido_id")
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    pedido.estado = "C"  # Completado
+    pedido.save()
+    return render(request, "core/pedido_exitoso.html", {"pedido": pedido, "metodo": "Transbank"})
+
+
+# --- CONFIRMACIÓN DE PAYPAL ---
+def confirmar_pago_paypal(request):
+    pedido_id = request.GET.get("pedido_id")
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    pedido.estado = "C"  # Completado
+    pedido.save()
+    return render(request, "core/pedido_exitoso.html", {"pedido": pedido, "metodo": "PayPal"})

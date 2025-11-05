@@ -1,0 +1,107 @@
+/* --- Fondo y tipografía general --- */
+body {
+  background: linear-gradient(135deg, #e8f5e9 0%, #ffffff 100%);
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Contenedor principal --- */
+.pago-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* evita que se solape con el navbar */
+  width: 100%;
+  min-height: calc(100vh - 120px); /* deja espacio para el navbar */
+  padding-top: 120px; /* separa del navbar */
+  padding-bottom: 40px;
+  box-sizing: border-box;
+}
+
+/* --- Tarjeta de pago --- */
+.pago-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* --- Títulos --- */
+.pago-card h1 {
+  color: #2e7d32;
+  font-size: 1.8em;
+  margin-bottom: 0.5em;
+}
+
+.pago-card p {
+  font-size: 1.1em;
+  margin: 0.5em 0;
+}
+
+/* --- Botones --- */
+.botones {
+  margin-top: 1.5em;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.btn-confirmar,
+.btn-cancelar {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* --- Confirmar --- */
+.btn-confirmar {
+  background-color: #4caf50;
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-confirmar:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+/* --- Cancelar --- */
+.btn-cancelar {
+  background-color: #f44336;
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-cancelar:hover {
+  background-color: #c62828;
+  transform: scale(1.05);
+}
+
+/* --- Animación de entrada --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsivo --- */
+@media (max-width: 600px) {
+  .pago-card {
+    padding: 25px;
+  }
+
+  .btn-confirmar, .btn-cancelar {
+    font-size: 0.95em;
+    padding: 10px;
+  }
+}

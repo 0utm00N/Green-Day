@@ -1,0 +1,123 @@
+/* ====== Pedido Exitoso ====== */
+
+/* Contenedor que centra la card en la pantalla */
+.exito-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh; /* ocupa la mayor parte de la pantalla */
+    padding: 2rem;
+    background-color: #121212; /* fondo oscuro de la página */
+}
+
+/* Card principal */
+.exito-card {
+    background-color: #1e1e1e;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+    padding: 2.5rem 2rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.8s ease;
+}
+
+/* Icono de éxito */
+.icono-exito {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: pop 0.6s ease;
+}
+
+/* Título */
+.exito-card h1 {
+    color: #00c896;
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+}
+
+/* Texto secundario */
+.exito-card p {
+    color: #ccc;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Destacar método de pago */
+.exito-card strong {
+    color: #00e6ac;
+}
+
+/* Detalles del pedido en mini-card interna */
+.detalle-pedido {
+    background-color: #2a2a2a;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.detalle-pedido p {
+    margin: 0.5rem 0;
+    color: #e0e0e0;
+    font-size: 0.95rem;
+}
+
+.detalle-pedido strong {
+    color: #00c896;
+}
+
+/* Animaciones suaves */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Botón volver opcional (si quieres agregarlo) */
+.exito-card a {
+    display: inline-block;
+    margin-top: 1.5rem;
+    background-color: #00c896;
+    color: #121212;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.exito-card a:hover {
+    background-color: #00e6ac;
+    transform: scale(1.05);
+}
+
+/* Responsive: se ajusta a pantallas pequeñas */
+@media (max-width: 600px) {
+    .exito-card {
+        padding: 2rem 1.5rem;
+    }
+    .icono-exito {
+        font-size: 2.5rem;
+    }
+    .exito-card h1 {
+        font-size: 1.8rem;
+    }
+    .exito-card p {
+        font-size: 1rem;
+    }
+}
+
+/* Mensaje adicional: "Tu pedido ya está en camino" */
+.mensaje-en-camino {
+    font-size: 1.1rem;
+    color: #00e6ac;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    animation: pop 0.6s ease;
+}

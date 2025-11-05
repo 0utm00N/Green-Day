@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'core/css/redirigir_pago.css' %}">
+
+<div class="pago-container">
+  <div class="pago-card">
+    <h1>Simulación de Pago con {{ metodo }}</h1>
+    <p>Pedido N° <strong>{{ pedido.id }}</strong></p>
+    <p>Monto total: <strong>${{ pedido.total }}</strong></p>
+
+    <div class="botones">
+      <button onclick="window.location.href='{{ url_confirmacion }}'" class="btn-confirmar">
+        Confirmar Pago
+      </button>
+      <a href="{% url 'catalogo' %}" class="btn-cancelar">Cancelar</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

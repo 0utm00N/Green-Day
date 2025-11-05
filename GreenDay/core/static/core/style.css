@@ -203,7 +203,7 @@ form button:hover { background: #00e6ac; }
 
 .finalizar-pedido:hover { background: #00e6ac; }
 
-/* ====== Mensajes / alertas ====== */
+/* ====== Mensajes ====== */
 .mensajes {
     max-width: 600px;
     margin: 1rem auto;
@@ -223,21 +223,76 @@ form button:hover { background: #00e6ac; }
 .mensaje.info    { background-color: #2196f3; color: #fff; }
 .mensaje.warning { background-color: #ffc107; color: #121212; }
 
-/* ====== Pedido exitoso con camión animado ====== */
+/* ====== Redirigir Pago ====== */
+.redirigir-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    padding: 1rem;
+}
+
+.redirigir-card {
+    background-color: #1e1e1e;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    padding: 3rem 2rem;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.redirigir-card h2 {
+    color: #00c896;
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+}
+
+.loader {
+    border: 6px solid #2a2a2a;
+    border-top: 6px solid #00c896;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: girar 1s linear infinite;
+    margin: 1.5rem auto;
+}
+
+@keyframes girar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== Pedido Exitoso ====== */
 .pedido-exitoso-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    height: 60vh;
-    text-align: center;
+    height: 75vh;
+    padding: 1rem;
 }
 
-.mensaje-exitoso h2 {
+.pedido-card {
+    background-color: #1e1e1e;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    padding: 3rem 2rem;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.pedido-card h2 {
     color: #00c896;
-    margin-bottom: 2rem;
     font-size: 1.8rem;
-    font-weight: bold;
+    margin-bottom: 2rem;
 }
 
 .camion-wrapper {
@@ -245,6 +300,7 @@ form button:hover { background: #00e6ac; }
     width: 100%;
     max-width: 600px;
     height: 120px;
+    margin: 0 auto;
     overflow: hidden;
 }
 
@@ -274,16 +330,6 @@ form button:hover { background: #00e6ac; }
     position: relative;
 }
 
-.escape {
-    width: 8px;
-    height: 16px;
-    background-color: #333;
-    position: absolute;
-    top: -16px;
-    right: 5px;
-    border-radius: 4px;
-}
-
 .rueda {
     width: 20px;
     height: 20px;
@@ -291,19 +337,7 @@ form button:hover { background: #00e6ac; }
     border-radius: 50%;
     margin: 0 5px;
     margin-top: 40px;
-    animation: girarRueda 0.5s linear infinite;
-}
-
-.humo {
-    position: absolute;
-    top: 10px;
-    left: -50px;
-    width: 20px;
-    height: 20px;
-    background-color: #bbb;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: subirHumo 2s linear infinite;
+    animation: girar 0.5s linear infinite;
 }
 
 @keyframes moverCamion {
@@ -311,33 +345,7 @@ form button:hover { background: #00e6ac; }
     100% { left: 100%; }
 }
 
-@keyframes girarRueda {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes subirHumo {
-    0% {
-        left: 45px;
-        top: 10px;
-        opacity: 0.8;
-        transform: scale(0.5);
-    }
-    50% {
-        left: 50px;
-        top: -10px;
-        opacity: 0.5;
-        transform: scale(0.8);
-    }
-    100% {
-        left: 55px;
-        top: -30px;
-        opacity: 0;
-        transform: scale(1);
-    }
-}
-
-/* ====== Historial de pedidos / Cards ====== */
+/* ====== Historial de pedidos ====== */
 .orders-container {
     max-width: 1000px;
     margin: 2rem auto;
@@ -409,15 +417,3 @@ form button:hover { background: #00e6ac; }
 .detalle-precio { color: #00e6ac; font-weight: 700; }
 
 .pedido-total { text-align: right; font-size: 1.05rem; font-weight: 700; color: #00c896; margin-top: 0.8rem; }
-
-/* ====== Responsive tweaks ====== */
-@media (max-width: 600px) {
-    .orders-container { grid-template-columns: 1fr; padding: 0.6rem; }
-    .carrito-item { flex-direction: column; gap: 0.8rem; align-items: flex-start; }
-    .carrito-item img { width: 100%; height: 160px; }
-    .camion-wrapper { max-width: 100%; }
-    .camion { left: -200px; }
-    .caja { width: 100px; height: 50px; }
-    .cabina { width: 50px; height: 35px; margin-top: 15px; }
-    .rueda { width: 16px; height: 16px; margin-top: 35px; }
-}
