@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto:wght@400;500;700&display=swap');
+
+/* ====== General ====== */
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.nav-left .logo {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #00c896;
+}
+
+/* ====== NAV-RIGHT: ajustes para que los iconos estén en fila y no amontonados ====== */
+.nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.5rem;           /* espacio uniforme entre iconos */
+    flex-wrap: nowrap;     /* evita que se envuelvan uno debajo de otro */
+}
+
+/* Hacemos cada enlace un área clicable cuadrada, centrada y consistente */
+.nav-right a {
+    display: inline-flex;          /* inline para que estén en línea pero con flexbox internamente */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;             /* tamaño de icono */
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: color 0.18s ease, transform 0.12s ease;
+    padding: 8px;                  /* zona clicable más cómoda */
+    min-width: 44px;               /* asegura separación mínima entre enlaces */
+    min-height: 44px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: transparent;
+}
+
+/* Hover suave — no exagerado para evitar solapamientos */
+.nav-right a:hover {
+    color: #00e6ac;
+    transform: scale(1.08);
+    background: rgba(0, 230, 172, 0.04);
+}
+
+/* Ícono del carrito con contador */
+.carrito-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 6px; /* espacio extra para que el contador no se superponga al icono vecino */
+}
+
+/* Contador: posicionado relativo al icono, con transform para no depender de 'right:-10px' */
+#contador-carrito {
+    background-color: #ff5555;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 999px;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    transform: translate(25%, -50%); /* ajuste fino para que quede fuera del icono */
+    z-index: 5;
+    line-height: 1;
+    display: inline-block;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* Aseguramos que los iconos (i / svg) no sobresalgan */
+.nav-right a i,
+.nav-right a svg {
+    pointer-events: none; /* evita que el contador u otros elementos interfieran con el icono */
+    display: block;
+}
+
+/* ====== Opcional: cuando la pantalla es muy pequeña permitimos scroll horizontal en nav-right ====== */
+@media (max-width: 520px) {
+    .nav-right {
+        gap: 1rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+    .nav-right::-webkit-scrollbar { height: 6px; }
+    .nav-right::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 6px; }
+}

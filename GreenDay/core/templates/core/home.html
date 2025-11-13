@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <div class="home-overlay">
+        <h1 class="home-title">GreenDay</h1>
+        <p class="home-subtitle">Plantas que rockean tu hogar 🌱🎸</p>
+        <a href="{% url 'catalogo' %}" class="home-btn">Catálogo</a>
+    </div>
+</div>
+{% endblock %}

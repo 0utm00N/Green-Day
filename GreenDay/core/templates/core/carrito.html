@@ -1,11 +1,15 @@
 {% extends "core/base.html" %}
-{% block content %}
-<h2>Carrito de Compras</h2>
+{% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/carrito.css' %}">
+{% endblock %}
+
+{% block content %}
 {% if productos %}
 <div class="carrito">
     {% for producto in productos %}
-    <div class="carrito-item">
+    <div class="carrito-item" id="item-{{ producto.id }}">
         <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
         <div class="carrito-item-details">
             <h3>{{ producto.nombre }}</h3>
@@ -13,7 +17,7 @@
             <p>Subtotal: ${{ producto.subtotal }}</p>
         </div>
         <div class="carrito-item-actions">
-            <a href="{% url 'eliminar_del_carrito' producto.id %}">Eliminar</a>
+            <button class="btn-eliminar" data-id="{{ producto.id }}">❌ Eliminar</button>
         </div>
     </div>
     {% endfor %}
@@ -24,18 +28,67 @@
 
     <!-- Selección de método de pago -->
     <h3>Seleccione su método de pago:</h3>
+
+    <label class="opcion">
+        <input type="radio" name="metodo_pago" value="transbank" class="input-pago">
+        Transbank
+    </label><br>
+
+    <label class="opcion">
+        <input type="radio" name="metodo_pago" value="paypal" class="input-pago">
+        PayPal
+    </label>
+
+    <br><br>
+
+    <h3>¿Cómo deseas recibir tu pedido?</h3>
+
+    <label class="opcion">
+        <input type="radio" name="metodo_entrega" value="despacho" class="input-entrega">
+        🚚 Despacho a domicilio
+    </label><br>
+
+    <label class="opcion">
+        <input type="radio" name="metodo_entrega" value="retiro" class="input-entrega">
+        🛍️ Retiro en tienda
+    </label>
+
+    <br><br>
+
+    <div id="bloque-direccion" class="hidden bloque-extra">
+        <h3>Dirección de despacho</h3>
+
+        <label class="opcion">
+            <input type="radio" name="direccion_tipo" value="guardada" class="input-direccion">
+            Usar mi dirección registrada: <strong>{{ request.user.cliente.direccion }}</strong>
+        </label><br>
+
+        <label class="opcion">
+            <input type="radio" name="direccion_tipo" value="nueva" class="input-direccion">
+            Ingresar nueva dirección
+        </label>
+
+        <div id="campo-nueva-direccion" class="hidden">
+            <br>
+            <input type="text" id="direccion_nueva" placeholder="Escribe tu nueva dirección aquí" class="campo-input">
+        </div>
+
+        <!-- Campo oculto que se enviará al servidor -->
+        <input type="hidden" name="direccion_final" id="direccion_final">
+    </div>
+
+
     <form method="POST" action="{% url 'finalizar_pedido' %}">
         {% csrf_token %}
-        <label>
-            <input type="radio" name="metodo_pago" value="transbank" required>
-            Transbank
-        </label><br>
-        <label>
-            <input type="radio" name="metodo_pago" value="paypal" required>
-            PayPal
-        </label><br><br>
-        <button type="submit" class="finalizar-pedido">Finalizar Compra</button>
+
+        <input type="hidden" name="metodo_pago" id="metodo_pago_final">
+        <input type="hidden" name="metodo_entrega" id="metodo_entrega_final">
+
+        <button id="btn-finalizar" class="finalizar-pedido" disabled>
+            Finalizar Compra
+        </button>
     </form>
+
 </div>
 {% else %}
 <p class="mensaje">Tu carrito está vacío.</p>

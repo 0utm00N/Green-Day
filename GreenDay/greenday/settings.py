@@ -134,14 +134,18 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "core" / "static"]
 
-# Transbank configuración (sandbox)
+
+# =====================
+# TRANSBANK SETTINGS
+# =====================
 TRANSBANK_COMMERCE_CODE = "597055555532"
-TRANSBANK_API_KEY = "XTrWmQhvfVQ8EG4hDE2v7z5n"
-TRANSBANK_ENVIRONMENT = "TEST"
+TRANSBANK_API_KEY = "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C"
+TRANSBANK_ENV = "integration"
 
-# PayPal configuración (sandbox)
-PAYPAL_CLIENT_ID = "AQUI_TU_CLIENT_ID_SANDBOX"
-PAYPAL_CLIENT_SECRET = "AQUI_TU_SECRET_SANDBOX"
-PAYPAL_MODE = "sandbox"
+
+
+PAYPAL_CLIENT_ID = "Abtg1E0CBXX6ShSqgkwvUPd4q0uoY5GluqXDbKQeM3XTu05Jluo8_ixlQJryNE5h5hrdXwUNfRRkzZau"      # modo sandbox
+PAYPAL_CLIENT_SECRET = "EEGUlRaEdbUYUmFxo69JX7MWEG8c27nZOUH7TiafWqgZQXFl2mGg2-8U8onYxnTCaXWG7akPlzULquSf"     # modo sandbox
+PAYPAL_MODE = "sandbox"                     # luego será "live"
