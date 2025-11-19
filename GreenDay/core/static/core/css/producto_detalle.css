@@ -1,0 +1,246 @@
+/* === LAYOUT GENERAL === */
+
+.product-wrapper {
+    display: grid;
+    grid-template-columns: 320px 1fr 300px; /* ← 3 columnas claras */
+    gap: 20px;
+    padding: 30px 20px;
+
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+
+    color: #e0e0e0;
+}
+
+.left-column,
+.center-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+/* === IMAGE CARD === */
+
+.image-card {
+    background-color: #1e1e1e;
+    padding: 12px;
+    border-radius: 14px;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.image-card img {
+    width: 100%;
+    height: 310px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+
+/* === MAIN INFO CARD === */
+
+.main-info-card {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.main-info-card h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: #00c896;
+}
+
+.category-badge {
+    display: inline-block;
+    background-color: #00c896;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.price-tag {
+    color: #00e6ac;
+    font-size: 1.35rem;
+    font-weight: bold;
+}
+
+.stock-tag {
+    font-size: 0.95rem;
+    color: #bbb;
+}
+
+.short-desc {
+    margin-top: 10px;
+    font-style: italic;
+    color: #c4c4c4;
+}
+
+/* === BOTÓN === */
+
+.btn-agregar {
+    margin-top: 20px;
+    background-color: #43a047;
+    color: white;
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.3s ease;
+}
+
+.btn-agregar:hover {
+    background-color: #66bb6a;
+    box-shadow: 0 0 12px #66bb6a;
+    transform: scale(1.04);
+}
+
+
+/* === INVERNADERO === */
+
+.greenhouse-card {
+    background-color: #171717;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.greenhouse-card h3 {
+    color: #66bb6a;
+    margin-bottom: 10px;
+}
+
+
+/* === FICHA TÉCNICA === */
+
+.tech-card {
+    background-color: #202020;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.tech-card h3 {
+    color: #4dd0e1;
+    margin-bottom: 12px;
+    font-size: 1.25rem;
+}
+
+
+/* === INDICADORES === */
+
+.indicators-card {
+    background-color: #202020;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.indicators-card h3 {
+    color: #ffcc80;
+    margin-bottom: 14px;
+}
+
+.indicator {
+    margin-bottom: 14px;
+}
+
+.indicator span {
+    font-weight: bold;
+}
+
+.bar {
+    width: 100%;
+    height: 10px;
+    background-color: #333;
+    border-radius: 5px;
+    margin: 6px 0;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    width: 80%;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+
+.fill.blue {
+    background-color: #4fc3f7;
+}
+
+.fill.red {
+    background-color: #ef5350;
+}
+
+.fill.green {
+    background-color: #00e676;
+}
+
+
+/* === EXTRA INFO (CURIOSIDADES/TIPS/CUIDADOS) — AHORA EN LA COLUMNA DERECHA === */
+
+.extra-card {
+    background-color: #181818;
+    padding: 20px;
+    border-radius: 14px;
+    width: 100%;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.extra-card h3 {
+    color: #00e676;
+    margin-top: 12px;
+}
+
+.extra-card ul {
+    list-style-type: "🌱 ";
+    padding-left: 20px;
+}
+
+.extra-card p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+
+/* === RESPONSIVE === */
+
+@media (max-width: 1200px) {
+    .product-wrapper {
+        grid-template-columns: 300px 1fr 260px;
+    }
+}
+
+@media (max-width: 1050px) {
+    .product-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .left-column {
+        align-items: center;
+    }
+
+    .extra-card {
+        max-width: 95%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-info-card h1 {
+        font-size: 1.6rem;
+    }
+
+    .btn-agregar {
+        font-size: 1rem;
+    }
+}

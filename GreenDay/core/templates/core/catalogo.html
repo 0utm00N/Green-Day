@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/catalogo.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Catálogo de Productos</h1>
+<div class="productos">
+    {% for producto in productos %}
+        <div class="producto" >
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" width="200">
+            {% else %}
+                <img src="{% static 'core/placeholder.png' %}" alt="Sin imagen" width="200">
+            {% endif %}
+            
+            <h2><a href="{% url 'producto_detalle' producto.id %}" class="product-name">{{ producto.nombre }}</a></h2>
+            <p>{{ producto.descripcion_corta }}</p>
+            <p>Precio: ${{ producto.precio }}</p>
+
+            <div class="acciones">
+                <div class="quantity-selector" data-stock="{{ producto.stock }}">
+                    <button class="btn-quantity">-</button>
+                    <span class="quantity">1</span>
+                    <button class="btn-quantity">+</button>
+                </div>
+
+                <button class="btn-agregar" data-id="{{ producto.id }}">
+                    Agregar al carrito
+                </button>
+            </div>
+        </div>
+    {% empty %}
+        <p>No hay productos disponibles.</p>
+    {% endfor %}
+</div>
+
+<script src="{% static 'core/js/catalogo.js' %}"></script>
+{% endblock %}

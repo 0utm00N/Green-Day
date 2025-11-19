@@ -1,0 +1,135 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/producto_detalle.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="product-wrapper">
+
+    <!-- FOTO + FICHA + CONDICIONES -->
+    <div class="left-column">
+
+        <div class="image-card">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+            {% else %}
+                <img src="{% static 'core/placeholder.png' %}" alt="Sin imagen">
+            {% endif %}
+        </div>
+
+        <div class="tech-card">
+            <h3>📘 Ficha técnica</h3>
+
+            {% if producto.nombre_cientifico %}
+                <p><strong>🌱 Nombre científico:</strong> {{ producto.nombre_cientifico }}</p>
+            {% endif %}
+
+            {% if producto.altura_aproximada %}
+                <p><strong>📏 Altura aproximada:</strong> {{ producto.altura_aproximada }} cm</p>
+            {% endif %}
+
+            {% if producto.sku %}
+                <p><strong>🏷 SKU:</strong> {{ producto.sku }}</p>
+            {% endif %}
+        </div>
+
+        <div class="indicators-card">
+            <h3>🌡 Condiciones ideales</h3>
+
+            {% if producto.luz_recomendada %}
+            <div class="indicator">
+                <span>🔆 Luz:</span>
+                <div class="bar">
+                    <div class="fill green"></div>
+                </div>
+                <small>{{ producto.luz_recomendada }}</small>
+            </div>
+            {% endif %}
+
+            {% if producto.riego %}
+            <div class="indicator">
+                <span>💧 Riego:</span>
+                <div class="bar">
+                    <div class="fill blue"></div>
+                </div>
+                <small>{{ producto.riego }}</small>
+            </div>
+            {% endif %}
+
+            {% if producto.temperatura_optima %}
+            <div class="indicator">
+                <span>🔥 Temperatura:</span>
+                <div class="bar">
+                    <div class="fill red"></div>
+                </div>
+                <small>{{ producto.temperatura_optima }}</small>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <!-- INFORMACIÓN PRINCIPAL (AQUÍ VA EL EXTRA INFO AHORA) -->
+    <div class="center-column">
+
+        <div class="main-info-card">
+            <span class="category-badge">{{ producto.categoria }}</span>
+
+            <h1>{{ producto.nombre }}</h1>
+
+            <p class="price-tag">💰 <strong>${{ producto.precio }}</strong></p>
+            <p class="stock-tag">📦 Stock: {{ producto.stock }}</p>
+
+            {% if producto.descripcion_corta %}
+                <p class="short-desc">{{ producto.descripcion_corta }}</p>
+            {% endif %}
+
+            <h3>📄 Descripción</h3>
+            <p>{{ producto.descripcion }}</p>
+
+            <button class="btn-agregar" data-id="{{ producto.id }}">Agregar al carrito</button>
+        </div>
+
+        <!-- EXTRA INFO DEBAJO DEL BOTÓN -->
+        <div class="extra-card">
+            {% if producto.curiosidades %}
+                <h3>✨ Curiosidades</h3>
+                <p>{{ producto.curiosidades }}</p>
+            {% endif %}
+
+            {% if producto.tips %}
+                <h3>🌿 Tips</h3>
+                <ul>
+                    {% for tip in producto.get_tips_list %}
+                        <li>{{ tip }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if producto.cuidados %}
+                <h3>🧠 Cuidados especiales</h3>
+                <p>{{ producto.cuidados }}</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+    <!-- INVERNADERO (solito a la derecha) -->
+    <div class="right-column">
+        <div class="greenhouse-card">
+            <h3>🏡 Invernadero de Origen</h3>
+            <p><strong>{{ producto.invernadero.nombre }}</strong></p>
+            <p>{{ producto.invernadero.direccion }}</p>
+            <p>{{ producto.invernadero.telefono }}</p>
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static 'core/js/catalogo.js' %}"></script>
+
+{% endblock %}

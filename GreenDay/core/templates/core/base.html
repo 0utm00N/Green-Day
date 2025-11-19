@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenDay</title>
+
+    <!-- Estilos globales -->
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="{% url 'home' %}" class="logo">GreenDay</a>
+    </div>
+
+    <div class="nav-right">
+        <a href="{% url 'catalogo' %}" title="Catálogo"><i class="fa-solid fa-store"></i></a>
+        <a href="{% url 'ver_perfil' %}" title="Perfil"><i class="fa-solid fa-user"></i></a>
+        <a href="{% url 'historial_pedidos' %}" title="Historial de pedidos">
+            <i class="fa-solid fa-box-archive"></i>
+        </a>
+
+
+        <!-- Ícono del carrito -->
+        <a href="{% url 'ver_carrito' %}" class="carrito-icon" title="Carrito">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="contador-carrito">0</span>
+        </a>
+
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i></a>
+        {% else %}
+            <a href="{% url 'login' %}" title="Iniciar sesión"><i class="fa-solid fa-right-to-bracket"></i></a>
+        {% endif %}
+    </div>
+</nav>
+
+{% block content %}{% endblock %}
+
+<!-- ===================================== -->
+<!-- Scripts globales -->
+<!-- ===================================== -->
+{% block extra_js %}
+    {% if request.resolver_match.url_name != 'catalogo' %}
+        <script src="{% static 'core/js/carrito.js' %}"></script>
+    {% endif %}
+    <script>
+    const contadorUrl = "{% url 'contador_carrito' %}";
+    // Actualiza el contador inmediatamente al cargar cualquier página
+    actualizarContadorCarrito();
+    </script>
+
+{% endblock %}
+
+</body>
+</html>

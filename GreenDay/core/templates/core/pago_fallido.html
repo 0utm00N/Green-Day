@@ -1,0 +1,13 @@
+<h2>❌ Pago fallido</h2>
+
+{% if pedido %}
+    <p>Pedido #{{ pedido.id }}</p>
+{% endif %}
+
+{% if response %}
+    <p>Estado: {{ response.status }}</p>
+{% endif %}
+
+<p>{{ error }}</p>
+
+<a href="{% url 'ver_carrito' %}">Volver al carrito</a>

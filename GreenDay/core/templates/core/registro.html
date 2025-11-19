@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/usuarios.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card auth-card-wide">
+        <h1 class="auth-title">Crear cuenta</h1>
+
+        <p class="auth-subtitle">
+            Regístrate para guardar tus datos de envío y seguir tus pedidos fácilmente 🌱
+        </p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="auth-non-field-errors">
+                    {% for error in form.non_field_errors %}
+                        <p class="auth-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="auth-form-group">
+                <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+                {{ form.nombre }}
+                {% for error in form.nombre.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="auth-form-group">
+                <label for="{{ form.apellido.id_for_label }}">Apellido</label>
+                {{ form.apellido }}
+                {% for error in form.apellido.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="auth-form-group">
+                <label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+                {{ form.email }}
+                {% for error in form.email.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="auth-form-group">
+                <label for="{{ form.direccion.id_for_label }}">Dirección</label>
+                {{ form.direccion }}
+                {% for error in form.direccion.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="auth-form-group">
+                <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+                {{ form.telefono }}
+                {% for error in form.telefono.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="auth-form-group">
+                <label for="{{ form.password1.id_for_label }}">Contraseña</label>
+                {{ form.password1 }}
+                {% for error in form.password1.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="auth-form-group">
+                <label for "{{ form.password2.id_for_label }}">Repetir contraseña</label>
+                {{ form.password2 }}
+                {% for error in form.password2.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="auth-btn-primary">Registrarse</button>
+        </form>
+
+        <div class="auth-footer">
+            ¿Ya tienes cuenta?
+            <a href="{% url 'login' %}">Inicia sesión aquí</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Añadir clase a todos los inputs del formulario de registro
+    document.addEventListener("DOMContentLoaded", () => {
+        const inputs = document.querySelectorAll(".auth-card input");
+        inputs.forEach(input => {
+            if (!input.classList.contains("auth-input")) {
+                input.classList.add("auth-input");
+            }
+        });
+    });
+</script>
+{% endblock %}

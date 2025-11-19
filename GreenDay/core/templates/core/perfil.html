@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/usuarios.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card auth-card-wide">
+        <h1 class="auth-title">Mi Perfil</h1>
+
+        <p class="auth-subtitle">
+            Actualiza tus datos para que tus pedidos lleguen sin problemas 🌿
+        </p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="auth-non-field-errors" style="border-color:#00e676; color:#a9ffcf; background:rgba(0,230,118,0.08);">
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="auth-form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" class="auth-input"
+                       value="{{ cliente.nombre }}">
+            </div>
+
+            <div class="auth-form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" class="auth-input"
+                       value="{{ cliente.apellido }}">
+            </div>
+
+            <div class="auth-form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" name="telefono" class="auth-input"
+                       value="{{ cliente.telefono }}">
+            </div>
+
+            <div class="auth-form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" name="direccion" class="auth-input"
+                       value="{{ cliente.direccion }}">
+            </div>
+
+            <button type="submit" class="auth-btn-primary">Guardar cambios</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

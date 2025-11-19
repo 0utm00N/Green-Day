@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/usuarios.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <h1 class="auth-title">Iniciar sesión</h1>
+
+        <p class="auth-subtitle">
+            Ingresa con tu cuenta para seguir comprando en GreenDay 🌿
+        </p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="auth-non-field-errors">
+                    {% for error in form.non_field_errors %}
+                        <p class="auth-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="auth-form-group">
+                <label for="{{ form.username.id_for_label }}">Usuario</label>
+                {{ form.username }}
+                {% for error in form.username.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="auth-form-group">
+                <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                {{ form.password }}
+                {% for error in form.password.errors %}
+                    <p class="auth-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="auth-btn-primary">Entrar</button>
+        </form>
+
+        <div class="auth-footer">
+            ¿No tienes cuenta?
+            <a href="{% url 'registro' %}">Crear una cuenta</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Añadir clase a inputs generados por el AuthenticationForm
+    document.addEventListener("DOMContentLoaded", () => {
+        const inputs = document.querySelectorAll("input[name='username'], input[name='password']");
+        inputs.forEach(input => {
+            input.classList.add("auth-input");
+        });
+    });
+</script>
+{% endblock %}

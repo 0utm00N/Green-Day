@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/pedido_exitoso.css' %}">
+
+<div class="exito-container">
+  <div class="exito-card">
+    <div class="icono-exito">✅</div>
+    <h1>¡Pedido realizado con éxito!</h1>
+    <p class="mensaje-en-camino">Tu pedido ya está en camino 🚚</p>
+    <p>Gracias por tu compra con <strong>{{ metodo }}</strong>.</p>
+
+    <div class="detalle-pedido">
+      <p><strong>ID Pedido:</strong> {{ pedido.id }}</p>
+      <p><strong>Fecha:</strong> {{ pedido.fecha }}</p>
+      <p><strong>Total:</strong> ${{ pedido.total }}</p>
+      <p><strong>Estado:</strong> Completado ✅</p>
+    </div>
+
+
+
+    <a href="{% url 'catalogo' %}" class="btn-volver">Volver al Catálogo</a>
+  </div>
+</div>
+{% endblock %}
