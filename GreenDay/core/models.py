@@ -226,14 +226,3 @@ class ItemCarrito(models.Model):
 # SEÑALES
 # =========================
 
-@receiver(post_save, sender=User)
-def crear_cliente(sender, instance, created, **kwargs):
-    """Crea automáticamente un Cliente cuando se registra un nuevo usuario."""
-    if created and not hasattr(instance, 'cliente'):
-        Cliente.objects.create(
-            user=instance,
-            nombre=instance.username,
-            apellido="",
-            direccion="Pendiente",
-            telefono="Pendiente"
-        )

@@ -11,6 +11,7 @@ from transbank.common.integration_type import IntegrationType
 
 
 # --- Django ---
+from django.db import IntegrityError
 from django.conf import settings
 from django.db.models import Sum
 from django.http import JsonResponse
@@ -306,15 +307,20 @@ def registro_view(request):
     if request.method == "POST":
         form = RegistroForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            # Auto-login después del registro
+            try:
+                user = form.save()
+            except Exception as e:
+                print("ERROR REAL:", e)
+                raise   # <-- Que Django muestre el error REAL
             login(request, user)
-            # Redirige al catálogo (igual que tu login_view)
             return redirect('catalogo')
     else:
         form = RegistroForm()
 
     return render(request, 'core/registro.html', {'form': form})
+
+
+
 
 
 def logout_view(request):

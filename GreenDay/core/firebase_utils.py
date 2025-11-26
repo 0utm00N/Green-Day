@@ -1,4 +1,5 @@
 import firebase_admin
+from .firebase_init import *
 from firebase_admin import credentials, firestore
 from .models import Carrito, ItemCarrito, Pedido, DetallePedido, Cliente
 

@@ -75,7 +75,7 @@
             </div>
 
             <div class="auth-form-group">
-                <label for "{{ form.password2.id_for_label }}">Repetir contraseña</label>
+                <label for="{{ form.password2.id_for_label }}">Repetir contraseña</label>
                 {{ form.password2 }}
                 {% for error in form.password2.errors %}
                     <p class="auth-error">{{ error }}</p>

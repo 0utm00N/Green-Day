@@ -41,10 +41,19 @@ class RegistroForm(forms.Form):
             field.widget.attrs["autocomplete"] = "off"
 
     def clean_email(self):
-        email = self.cleaned_data.get("email")
-        # Usaremos el email como username también
+        email = self.cleaned_data.get("email").lower().strip()
+
+        # Normalizar correo
+        email = email.lower().strip()
+
+        # Revisar si existe un usuario con ese username
         if User.objects.filter(username=email).exists():
             raise ValidationError("Ya existe un usuario registrado con este correo.")
+
+        # Revisar si existe un Cliente asociado a ese email
+        if Cliente.objects.filter(user__username=email).exists():
+            raise ValidationError("Este usuario ya tiene un perfil registrado.")
+
         return email
 
     def clean(self):
@@ -61,30 +70,23 @@ class RegistroForm(forms.Form):
         return cleaned_data
 
     def save(self):
-        """Crea el User y el Cliente asociado. Devuelve el user."""
-        nombre = self.cleaned_data["nombre"]
-        apellido = self.cleaned_data["apellido"]
-        email = self.cleaned_data["email"]
-        direccion = self.cleaned_data.get("direccion", "")
-        telefono = self.cleaned_data.get("telefono", "")
-        password = self.cleaned_data["password1"]
+        cleaned = self.cleaned_data
 
-        # Usamos el email como username para no pedir username aparte
-        user = User(
-            username=email,
-            email=email,
-            first_name=nombre,
-            last_name=apellido,
+        user = User.objects.create_user(
+            username=cleaned["email"].lower().strip(),
+            email=cleaned["email"],
+            password=cleaned["password1"],
+            first_name=cleaned["nombre"],
+            last_name=cleaned["apellido"],
         )
-        user.set_password(password)
-        user.save()
 
         Cliente.objects.create(
             user=user,
-            nombre=nombre,
-            apellido=apellido,
-            direccion=direccion,
-            telefono=telefono,
+            nombre=cleaned["nombre"],
+            apellido=cleaned["apellido"],
+            direccion=cleaned.get("direccion") or "",
+            telefono=cleaned.get("telefono") or "",
         )
 
         return user
+
